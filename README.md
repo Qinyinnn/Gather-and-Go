@@ -85,49 +85,6 @@ Gather-and-Go/
 └── assets/                 # Images, icons, and other media
 ```
 
-## 🎯 Checkpoint 5 Implementation
-
-### Core Features to Implement
-
-1. **Availability Screen** - Coordinate member schedules
-2. **Budget Screen** - Set and track budget preferences
-3. **Recommendations Screen** - View and select trip options
-
-### Team Development
-
-- Each team member can work on a different feature module
-- All modules integrate through `main.js`
-- Shared Firebase backend in `/firebase/`
-
-## 🔥 Firebase Setup
-
-This project uses Firebase for:
-
-- **Firestore Database** - Store user data, availability, budgets
-- **Authentication** (optional) - User login/signup
-- **Hosting** (optional) - Deploy the final app
-
-### Firebase Console Setup
-
-1. Create a new Firebase project
-2. Enable Firestore Database
-3. (Optional) Enable Authentication
-4. Copy config to `firebase/firebase-config.js`
-
-## 📦 Deployment
-
-To submit or deploy:
-
-1. Ensure all Firebase credentials are configured
-2. Test all features locally
-3. Zip the entire project folder
-4. Submit for Checkpoint 5
-
-## 👥 Team
-
-- Add team member names here
-- Assign feature responsibilities
-
 ## 🛠️ Tools and Technologies Used
 
 ### Core Technologies
@@ -175,19 +132,3 @@ To submit or deploy:
   - https://developer.mozilla.org/
 - **Firebase Documentation** - Firebase setup and API guides
   - https://firebase.google.com/docs/web/setup
-
-### Course Information
-
-- **Course:** UI Design Final Project
-- **Institution:** University Course
-- **Checkpoint:** 5
-- **Date:** December 2025
-
----
-
-## 📝 Development Notes
-
-- This is a **prototype/MVP** focused on core functionality
-- Built with vanilla JavaScript for simplicity and educational purposes
-- Designed for easy team collaboration with modular file structure
-- Ready for Checkpoint 5 submission
