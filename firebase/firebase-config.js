@@ -27,18 +27,5 @@ const firebaseConfig = {
     measurementId: "YOUR_MEASUREMENT_ID" // Optional
 };
 
-// Example of what a real config looks like (DO NOT USE THESE VALUES):
-/*
-const firebaseConfig = {
-    apiKey: "AIzaSyD1234567890abcdefghijklmnopqrstuvwx",
-    authDomain: "gather-and-go-12345.firebaseapp.com",
-    projectId: "gather-and-go-12345",
-    storageBucket: "gather-and-go-12345.appspot.com",
-    messagingSenderId: "123456789012",
-    appId: "1:123456789012:web:abcdef1234567890",
-    measurementId: "G-XXXXXXXXXX"
-};
-*/
-
 // Export the config for use in firebase-init.js
 export default firebaseConfig;

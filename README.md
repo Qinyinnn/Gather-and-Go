@@ -64,27 +64,6 @@ Gather&Go helps groups plan trips together by coordinating:
    - Navigate to http://localhost:8000 in your browser
    - Start building your features!
 
-## 📁 Project Structure
-
-```
-Gather-and-Go/
-├── index.html              # Main entry page
-├── styles.css              # Global styles
-├── main.js                 # Main JavaScript logic
-├── pages/                  # Feature-specific HTML pages
-│   ├── availability.html
-│   ├── budget.html
-│   └── recommendations.html
-├── scripts/                # Feature-specific JavaScript modules
-│   ├── availability.js
-│   ├── budget.js
-│   └── recommendations.js
-├── firebase/               # Firebase configuration and initialization
-│   ├── firebase-config.js
-│   └── firebase-init.js
-└── assets/                 # Images, icons, and other media
-```
-
 ## 🛠️ Tools and Technologies Used
 
 ### Core Technologies
@@ -104,13 +83,6 @@ Gather-and-Go/
 - **VS Code** - Code editor
 - **Live Server** / **Python HTTP Server** - Local development server
 - **Chrome DevTools** - Debugging and testing
-
-### Design Philosophy
-
-- **Vanilla JavaScript** - No frameworks (React, Vue, etc.) to keep it simple and lightweight
-- **No Build Tools** - No Webpack, Vite, or npm required
-- **CDN Delivery** - Firebase SDK loaded directly from Google's CDN
-- **Mobile-Responsive** - CSS Grid and Flexbox for responsive layouts
 
 ## 🙏 Acknowledgments
 

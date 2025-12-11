@@ -7,7 +7,8 @@
 
 /**
  * @typedef {Object} Availability
- * @property {string[]} timeSlots - Array of strings like "Mon 9:00 AM"
+ * @property {string[]} dates - Array of ISO date strings (e.g., "2025-07-15")
+ * @property {string} timeRange - e.g., "18:00-22:00"
  */
 
 /**
@@ -16,8 +17,7 @@
  * @property {number} budget.min - Minimum budget per person
  * @property {number} budget.max - Maximum budget per person
  * @property {string} budget.currency - e.g., "USD"
- * @property {string[]} activities - Array of activity types (e.g., "Dinner", "Hiking")
- * @property {string} notes - Optional notes or "vibes" description
+ * @property {string[]} interests - Array of "vibes" or activity types (e.g., "hiking", "jazz", "foodie")
  * @property {Availability} availability - When the user is free
  */
 
@@ -43,9 +43,8 @@ export class Group {
     constructor(id, name, createdBy) {
         this.id = id;
         this.name = name;
-        this.createdBy = createdBy;
+        this.createdBy = createdBy; // ID of User who created the group
         this.memberIds = [createdBy]; // Array of User IDs
-        this.invitedEmails = []; // Array of invited email strings
         this.status = 'planning'; // 'planning', 'finalized'
         this.createdAt = new Date();
     }
@@ -56,18 +55,18 @@ export class Group {
  * (Generated dynamically or stored in 'recommendations' sub-collection)
  */
 export class EventRecommendation {
-    constructor(id, title, location, time, price, description, imageUrl, matchScore, tags, emoji) {
+    constructor(id, title, location, time, price, description, imageUrl, matchScore, tags, emoji, votes = 0) {
         this.id = id;
         this.title = title;
         this.location = location;
         this.time = time;
-        this.price = price; // String format like "$15/person" to match UI
+        this.price = price;
         this.description = description;
         this.imageUrl = imageUrl;
-        this.matchScore = matchScore; // 0-100
-        this.tags = tags; // Array of strings
-        this.emoji = emoji; // Emoji icon
-        this.rating = { average: 4.5, count: 5 }; // Mock rating
-        this.votes = 0; // Number of votes
+        this.matchScore = matchScore;
+        this.tags = tags;
+        this.emoji = emoji;
+        this.votes = votes;
+        this.rating = { average: 4.5, count: 10 }; // Mock rating
     }
 }
