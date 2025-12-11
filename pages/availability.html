@@ -5,11 +5,92 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Availability - Gather&Go</title>
     <link rel="stylesheet" href="../styles.css">
+    <style>
+        .availability-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .date-section {
+            margin-bottom: 2rem;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .time-slot {
+            padding: 1rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .time-slot:hover {
+            border-color: #667eea;
+            background-color: #f7fafc;
+        }
+
+        .time-slot.selected {
+            background-color: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .btn-next {
+            width: 100%;
+            padding: 1rem;
+            background: #667eea;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            margin-top: 2rem;
+        }
+
+        .btn-next:hover {
+            background: #5a67d8;
+        }
+    </style>
 </head>
 <body>
-    <!-- TODO: Add availability page content here -->
-    
-    <script type="module" src="../firebase/firebase-init.js"></script>
+    <div class="availability-container">
+        <h1>When are you free? 📅</h1>
+        <p>Select all times that work for you.</p>
+
+        <div class="date-section">
+            <h3>This Weekend</h3>
+            <div class="time-grid" id="weekend-grid">
+                <div class="time-slot" data-time="Sat Morning">Sat Morning</div>
+                <div class="time-slot" data-time="Sat Afternoon">Sat Afternoon</div>
+                <div class="time-slot" data-time="Sat Evening">Sat Evening</div>
+                <div class="time-slot" data-time="Sun Morning">Sun Morning</div>
+                <div class="time-slot" data-time="Sun Afternoon">Sun Afternoon</div>
+                <div class="time-slot" data-time="Sun Evening">Sun Evening</div>
+            </div>
+        </div>
+
+        <div class="date-section">
+            <h3>Weekdays</h3>
+            <div class="time-grid" id="weekday-grid">
+                <div class="time-slot" data-time="Weekday Evenings">Weekday Evenings</div>
+                <div class="time-slot" data-time="Friday Night">Friday Night</div>
+            </div>
+        </div>
+
+        <button id="next-btn" class="btn-next">Next: Set Budget →</button>
+    </div>
+
     <script type="module" src="../scripts/availability.js"></script>
 </body>
 </html>
