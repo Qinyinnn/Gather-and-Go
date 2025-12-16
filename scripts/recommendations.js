@@ -23,10 +23,17 @@ const eventVotes = {};
  */
 async function init() {
     try {
-        // Fetch recommendations (using mock data by default)
-        const events = await getRecommendations(MOCK_GROUP_ID);
+        // Fetch recommendations from Firebase
+        let events = await getRecommendations(MOCK_GROUP_ID);
         
-        // Initialize vote tracking
+        // If Firestore is empty, show seed button
+        // Check if data has createdAt field (Firebase seeded) vs mock data
+        if (events.length === 0 || (events.length === 10 && !events[0].createdAt)) {
+            showSeedPrompt();
+            return;
+        }
+        
+        // Initialize vote tracking from Firestore
         events.forEach(event => {
             eventVotes[event.id] = event.votes || 0;
         });
@@ -44,7 +51,40 @@ async function init() {
     }
 }
 
-// Remove the showSeedPrompt function - not needed for mock data mode
+/**
+ * Show prompt to seed initial data to Firebase
+ */
+function showSeedPrompt() {
+    eventsContainer.innerHTML = `
+        <div style="text-align: center; grid-column: 1/-1; padding: 3rem; background: white; border-radius: 16px; margin: 2rem;">
+            <h2 style="margin-bottom: 1rem;">🌱 First Time Setup</h2>
+            <p style="color: #6b7280; margin-bottom: 2rem;">Your Firebase is empty. Click below to load event data.</p>
+            <button id="seed-btn" style="padding: 1rem 2rem; background: linear-gradient(135deg, #7c3aed 0%, #ec4899 100%); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer;">
+                🚀 Load Events to Firebase
+            </button>
+            <p style="color: #9ca3af; margin-top: 1rem; font-size: 0.875rem;">This will write 10 events to Firestore</p>
+        </div>
+    `;
+    
+    document.getElementById('seed-btn').addEventListener('click', async () => {
+        const btn = document.getElementById('seed-btn');
+        btn.disabled = true;
+        btn.textContent = '⏳ Loading...';
+        
+        try {
+            await seedRecommendations(MOCK_GROUP_ID);
+            alert('✅ Events loaded to Firebase! Refreshing page...');
+            location.reload();
+        } catch (error) {
+            console.error('Seed error:', error);
+            alert('❌ Error: ' + error.message + '. Check console.');
+            btn.disabled = false;
+            btn.textContent = '🚀 Load Events to Firebase';
+        }
+    });
+}
+
+// Remove the old placeholder comment
 
 /**
  * Render the list of event cards
@@ -152,28 +192,27 @@ async function handleStarClick(e) {
     // Update display immediately
     updateStarDisplay(eventId, rating);
     
-    // Update vote count (user has now "voted" by rating)
-    if (!eventVotes[eventId + '_userVoted']) {
-        eventVotes[eventId] = (eventVotes[eventId] || 0) + 1;
-        eventVotes[eventId + '_userVoted'] = true;
+    // Persist to Firebase
+    try {
+        await rateEvent(MOCK_GROUP_ID, eventId, USER_ID, rating);
         
-        // Update vote status in UI
-        const voteStatus = document.querySelector(`.vote-status[data-event-id="${eventId}"]`);
-        if (voteStatus) {
-            voteStatus.textContent = `👥 ${eventVotes[eventId]}/5 voted`;
+        // Update vote count if first time voting
+        if (!eventVotes[eventId + '_userVoted']) {
+            const newVoteCount = await voteForEvent(MOCK_GROUP_ID, eventId);
+            eventVotes[eventId] = newVoteCount;
+            eventVotes[eventId + '_userVoted'] = true;
+            
+            const voteStatus = document.querySelector(`.vote-status[data-event-id="${eventId}"]`);
+            if (voteStatus) {
+                voteStatus.textContent = `👥 ${newVoteCount}/5 voted`;
+            }
         }
+        
+        console.log(`⭐ Rating saved to Firebase: ${rating} stars for ${eventId}`);
+    } catch (error) {
+        console.error('❌ Failed to save to Firebase:', error);
+        alert('Error saving rating. Check Firebase config.');
     }
-    
-    console.log(`⭐ User rated event ${eventId}: ${rating} stars (stored locally)`);
-    
-    // Optional: Uncomment below to persist to Firebase
-    // try {
-    //     await rateEvent(MOCK_GROUP_ID, eventId, USER_ID, rating);
-    //     const newVoteCount = await voteForEvent(MOCK_GROUP_ID, eventId);
-    //     console.log('✅ Rating persisted to Firebase');
-    // } catch (error) {
-    //     console.error('❌ Failed to save rating to Firebase:', error);
-    // }
 }
 
 /**

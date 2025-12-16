@@ -18,13 +18,13 @@
 // Firebase configuration object
 // TODO: Replace these placeholder values with your actual Firebase config
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY_HERE",
-    authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_PROJECT_ID.appspot.com",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID",
-    measurementId: "YOUR_MEASUREMENT_ID" // Optional
+  apiKey: "AIzaSyB9kJh0_ID-5kzsY4dDwo571o29ah0SJis",
+  authDomain: "gathergo-efad1.firebaseapp.com",
+  projectId: "gathergo-efad1",
+  storageBucket: "gathergo-efad1.firebasestorage.app",
+  messagingSenderId: "1024560417226",
+  appId: "1:1024560417226:web:ac00e9bf602b103bfae733",
+  measurementId: "G-GWP6QGT1SL"
 };
 
 // Export the config for use in firebase-init.js

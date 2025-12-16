@@ -178,7 +178,7 @@ export async function seedRecommendations(groupId) {
  * @returns {Promise<EventRecommendation[]>} List of recommended events
  */
 export async function getRecommendations(groupId) {
-    const USE_FIREBASE = false; // Toggle to true to use real Firebase backend
+    const USE_FIREBASE = true; // Toggle to true to use real Firebase backend
     
     if (!USE_FIREBASE) {
         // Mock data mode (default for demo/grading)
