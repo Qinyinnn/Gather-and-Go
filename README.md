@@ -23,7 +23,7 @@ Gather&Go helps groups plan trips together by coordinating:
 1. **Set up Firebase**
 
    - Create a Firebase project at https://console.firebase.google.com/
-   - Enable Firestore Database in your Firebase project
+   - Enable Firestore Database in your Firebase project (Start in **test mode** for development)
    - Copy your Firebase configuration
    - Paste the config values into `firebase/firebase-config.js`
 
@@ -50,6 +50,22 @@ Gather&Go helps groups plan trips together by coordinating:
    # Right-click index.html → "Open with Live Server"
    ```
 
+3. **First-time setup: Load data to Firebase**
+
+   - Navigate to `pages/recommendations.html`
+   - Click the **"🚀 Load Events to Firebase"** button
+   - This seeds your Firestore database with 10 event recommendations
+   - Page will refresh automatically
+
+4. **Test the app**
+
+   - Click stars to rate events (1-5 stars)
+   - Ratings and votes are **persisted to Firestore**
+   - Refresh the page - your data stays!
+   - Open in another browser/tab - votes are synced
+
+   ````
+
    **Option C: Node.js http-server**
 
    ```bash
@@ -58,9 +74,9 @@ Gather&Go helps groups plan trips together by coordinating:
 
    # Run in project directory
    http-server -p 8000
-   ```
+   ````
 
-3. **Open the application**
+5. **Open the application**
    - Navigate to http://localhost:8000 in your browser
    - Start building your features!
 

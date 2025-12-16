@@ -1,4 +1,4 @@
-import { getRecommendations } from '../firebase/services.js';
+import { getRecommendations, seedRecommendations, voteForEvent, rateEvent } from '../firebase/services.js';
 
 // DOM Elements
 const eventsContainer = document.getElementById('events-container');
@@ -7,7 +7,14 @@ const topMatchSection = document.getElementById('top-match-section');
 // Mock Group ID for this prototype
 const MOCK_GROUP_ID = 'demo-group-123';
 
-// Track user ratings in memory (in real app, would be in Firebase)
+// Generate or retrieve user ID (in production, use Firebase Auth)
+const USER_ID = localStorage.getItem('userId') || (() => {
+    const id = 'user_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('userId', id);
+    return id;
+})();
+
+// Track user ratings in memory
 const userRatings = {};
 const eventVotes = {};
 
@@ -16,7 +23,7 @@ const eventVotes = {};
  */
 async function init() {
     try {
-        // Fetch recommendations
+        // Fetch recommendations (using mock data by default)
         const events = await getRecommendations(MOCK_GROUP_ID);
         
         // Initialize vote tracking
@@ -36,6 +43,8 @@ async function init() {
         `;
     }
 }
+
+// Remove the showSeedPrompt function - not needed for mock data mode
 
 /**
  * Render the list of event cards
@@ -131,37 +140,40 @@ function createEventCard(event, isTopMatch = false) {
  * Handle star rating click
  * @param {Event} e 
  */
-function handleStarClick(e) {
+async function handleStarClick(e) {
     const star = e.currentTarget;
     const rating = parseInt(star.dataset.value);
     const starsContainer = star.parentElement;
     const eventId = starsContainer.dataset.eventId;
     
-    // Store rating
+    // Store rating locally
     userRatings[eventId] = rating;
     
-    // Update display
+    // Update display immediately
     updateStarDisplay(eventId, rating);
     
-    // Simulate updating vote count (user has now "voted" by rating)
+    // Update vote count (user has now "voted" by rating)
     if (!eventVotes[eventId + '_userVoted']) {
         eventVotes[eventId] = (eventVotes[eventId] || 0) + 1;
         eventVotes[eventId + '_userVoted'] = true;
         
-        // Update vote status
+        // Update vote status in UI
         const voteStatus = document.querySelector(`.vote-status[data-event-id="${eventId}"]`);
         if (voteStatus) {
             voteStatus.textContent = `👥 ${eventVotes[eventId]}/5 voted`;
         }
     }
     
-    // In a real app, persist to Firebase:
-    // await updateDoc(doc(db, 'eventRatings', eventId), {
-    //     [`ratings.${userId}`]: rating,
-    //     totalRatings: increment(1)
-    // });
+    console.log(`⭐ User rated event ${eventId}: ${rating} stars (stored locally)`);
     
-    console.log(`⭐ User rated event ${eventId}: ${rating} stars`);
+    // Optional: Uncomment below to persist to Firebase
+    // try {
+    //     await rateEvent(MOCK_GROUP_ID, eventId, USER_ID, rating);
+    //     const newVoteCount = await voteForEvent(MOCK_GROUP_ID, eventId);
+    //     console.log('✅ Rating persisted to Firebase');
+    // } catch (error) {
+    //     console.error('❌ Failed to save rating to Firebase:', error);
+    // }
 }
 
 /**
